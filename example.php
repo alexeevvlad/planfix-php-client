@@ -2,7 +2,7 @@
 
 require 'Planfix_API.php';
 
-$PF = new Planfix_API(array('apiKey' => 'YOUR_API_KEY', 'apiSecret' => 'YOUR_API_SECRET'));
+$PF = new Planfix_API(array('apiUrl' => 'https://apiru.planfix.ru/xml', 'apiKey' => 'YOUR_API_KEY', 'apiSecret' => 'YOUR_API_SECRET'));
 
 $PF->setAccount('YOUR_ACCOUNT');
 
@@ -26,7 +26,11 @@ $params = array(
 
 $clients = $PF->api($method, $params);
 
-echo '<pre>'.print_r($clients, 1).'</pre>';
+if(!$PF->hasError()) {
+  echo '<pre>'.print_r($clients, 1).'</pre>';
+} else {
+  echo 'Error! Code: '.$PF->getErrorCode().' / Message: '.$PF->getError();
+}
 
 $batch = array(
     array(
@@ -51,5 +55,9 @@ $batch = array(
 
 list($projects, $tasks) = $PF->api($batch);
 
-echo '<pre>'.print_r($tasks, 1).'</pre>';
-echo '<pre>'.print_r($projects, 1).'</pre>';
+if(!$PF->hasError()) {
+  echo '<pre>'.print_r($tasks, 1).'</pre>';
+  echo '<pre>'.print_r($projects, 1).'</pre>';
+} else {
+  echo 'Error! Code: '.$PF->getErrorCode().' / Message: '.$PF->getError();
+}
