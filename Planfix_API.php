@@ -811,20 +811,9 @@ class Planfix_API {
      * @return array the Exported data
      */
     protected function exportData($responseXml) {
-      $array = array();
-
-      foreach ($responseXml as $name => $element) {
-          ($node = & $array[$name])
-              && (1 === count($node) ? $node = array($node) : 1)
-              && $node = & $node[];
-
-          $node = $element->count() ? $this->exportData($element) : trim($element);
-      }
-
-      return $array;
+      return json_decode(json_encode($responseXml), TRUE);
     }
 
 }
-
 
 /* EOF */
